@@ -46,6 +46,7 @@ pipeline {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                         sh "docker build -t vkulkarni0303/boardgame:latest ."
+                        sh " docker run -d -p 8082:8082 vkulkarni0303/boardgame:latest "
             
                         
                     }

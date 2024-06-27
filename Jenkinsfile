@@ -24,23 +24,6 @@ pipeline {
                 sh "mvn clean install"
                 }
         }
-         stage('Sonarqube') {
-            steps {
-               withSonarQubeEnv('sonar') {
-                   sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=BoardGame -Dsonar.projectKey=BoardGame \
-                        -Dsonar.java.binaries=. '''
-                   
-        }
-        
-            }
-        }
-        stage('Quality Gate') {
-            steps {
-               script {
-                  waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
-            }
-        }
-        }
          stage('Build & tag docker image') {
             steps {
                 script{

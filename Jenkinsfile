@@ -24,12 +24,22 @@ pipeline {
                 sh "mvn clean install"
                 }
         }
+		stage('Sonarqube Analysis') {
+            steps {
+                    withSonarQubeEnv('sonar') {
+                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Boardgame \
+                        -Dsonar.java.binaries=. \
+                        -Dsonar.projectKey=Boardgame '''
+    
+                }
+            }
+        }
          stage('Build & tag docker image') {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                         sh "docker build -t vkulkarni0303/boardgame:latest ."
-                        sh " docker run -d -p 8082:8082 vkulkarni0303/boardgame:latest "
+    
             
                         
                     }
@@ -44,6 +54,11 @@ pipeline {
                         
                     }
             }
+            }
+        }
+		stage("Deploy "){
+            steps{
+                sh "docker run --name node-app -d -p 8000:8000  node-app-test-new "
             }
         }
         

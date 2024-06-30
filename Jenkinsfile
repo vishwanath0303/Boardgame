@@ -58,7 +58,7 @@ pipeline {
         }
 		stage("Deploy "){
             steps{
-                sh "docker run --name node-app -d -p 8000:8000  node-app-test-new "
+                sh "docker run --name boardgame -d -p 8000:8000  boardgame:latest "
             }
         }
         

@@ -38,7 +38,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t vkulkarni0303/boardgame:latest ."
+                        sh "docker build -t vkulkarni0303/boardgame:latest:$BUILD_NUMBER ."
     
             
                         
@@ -58,7 +58,7 @@ pipeline {
         }
 		stage("Deploy "){
             steps{
-                sh "docker run --name boardgame -d -p 8000:8000  boardgame:latest "
+                sh "docker run --name boardgame -d -p 8000:8000  vkulkarni0303/boardgame:latest:$BUILD_NUMBER "
             }
         }
         

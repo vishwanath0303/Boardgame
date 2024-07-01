@@ -56,6 +56,19 @@ pipeline {
             }
             }
         }
+
+	    stage('Clean up containers') {   //if container runs it will stop and remove this block
+          steps {
+           script {
+             try {
+                sh 'docker stop boardgame '
+                sh 'docker rm boardgame '
+                } catch (Exception e) {
+                  echo "Container pet1 not found, moving to next stage"  
+                }
+            }
+          }
+        }
 		stage("Deploy "){
             steps{
                 sh "docker run --name boardgame -d -p 8082:8080  vkulkarni0303/boardgame:$BUILD_NUMBER "

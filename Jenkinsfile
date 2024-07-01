@@ -74,7 +74,19 @@ pipeline {
                 sh "docker run --name boardgame -d -p 8082:8080  vkulkarni0303/boardgame:$BUILD_NUMBER "
             }
         }
-        
+        stage('Deploy to Kubernetes') {
+            steps {
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', serverUrl: ' https://172.31.57.191:6443']]) {
+				    sh "kubectl apply -f deployment-service.yaml"
+}
+            }
+		stage('Verify the aDeployment') {
+            steps {
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', serverUrl: ' https://172.31.57.191:6443']]) {
+				    sh "kubectl get pods"
+				    sh "kubectl get svc -n webapps"
+}
+            }
          
     }
 }

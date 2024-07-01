@@ -7,7 +7,12 @@ pipeline {
     environment{
         SCANNER_HOME= tool 'sonar-scanner'
     }
-
+	stages {
+        stage('Git checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'git-cred', url: 'https://github.com/vishwanath0303/Boardgame.git'
+            }
+        }
    
          stage('Compile') {
             steps {

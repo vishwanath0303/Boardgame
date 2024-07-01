@@ -58,7 +58,7 @@ pipeline {
         }
 		stage("Deploy "){
             steps{
-                sh "docker run --name boardgame -d -p 8082:8082  vkulkarni0303/boardgame:$BUILD_NUMBER "
+                sh "docker run --name boardgame -d -p 8082:8080  vkulkarni0303/boardgame:$BUILD_NUMBER "
             }
         }
         

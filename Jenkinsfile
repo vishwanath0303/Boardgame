@@ -24,6 +24,15 @@ pipeline {
                 sh "mvn clean install"
                 }
         }
+
+	 stage('Deploy to Kubernetes') {
+            steps {
+               withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                 sh "mvn deploy"
+
+}
+            }
+        }	
 		stage('Sonarqube Analysis') {
             steps {
                     withSonarQubeEnv('sonar') {

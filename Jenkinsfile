@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push vkulkarni0303/boardgame:latest"
+                        sh "docker push vkulkarni0303/Petclinic:$BUILD_NUMBER"
                         
                     }
             }

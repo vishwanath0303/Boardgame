@@ -102,21 +102,36 @@ pipeline {
          
     }
 	
-  post {
-        success {
-            emailext(
-                subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) is back to normal',
-                body: 'Good news, everyone! Job ${JOB_NAME} is back to normal. See details at: ${BUILD_URL}',
-                to: 'vishwanathgcp0303@gmail.com'
-            )
-        }
-        failure {
-            emailext(
-                subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) failed',
-                body: 'Something went wrong with Job ${JOB_NAME}. See details at: ${BUILD_URL}',
-                to: 'vishwanathgcp0303@gmail.com'
+   post {
+    always {
+        script {
+            def jobName = env.JOB_NAME
+            def buildNumber = env.BUILD_NUMBER
+            def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
+            def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
+
+            def body = """
+                <html>
+                <body>
+                <div style="border: 4px solid ${bannerColor}; padding: 10px;">
+                <h2>${jobName} - Build ${buildNumber}</h2>
+                <div style="background-color: ${bannerColor}; padding: 10px;">
+                <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+                </div>
+                <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
+                </div>
+                </body>
+                </html>
+            """
+
+            emailext (
+                subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
+                body: body,
+                to: 'vishwanathgcp0303@gmail.com',
+                from: 'vishwanathgcp0303@gmail.com',
+                replyTo: 'jenkins@example.com'
             )
         }
     }
-
+}
 }

@@ -109,65 +109,21 @@ pipeline {
          
     }
 	
-   post {
-    always {
-        script {
-            def jobName = env.JOB_NAME
-            def buildNumber = env.BUILD_NUMBER
-            def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
-            def bannerColor = pipelineStatus.toUpperCase() == 'SUCCESS' ? 'green' : 'red'
-
-            def body = """
-                <html>
-                <head>
-                  <title>CI/CD Pipeline Status</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            border: 4px solid ${bannerColor};
-            padding: 10px;
-            max-width: 600px;
-            margin: auto;
-        }
-        .status-banner {
-            background-color: ${bannerColor};
-            padding: 10px;
-        }
-        .status-banner h3 {
-            color: white;
-            margin: 0;
-        }
-        a {
-            color: blue;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>${jobName} - Build ${buildNumber}</h2>
-        <div class="status-banner">
-            <h3>Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
-        </div>
-        <p>Check the <a href="${BUILD_URL}" target="_blank">console output</a>.</p>
-    </div>
-</body>
-</html>
-            """
-
-            emailext (
-                subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}",
-                body: body,
-                to: 'vishwanathgcp0303@gmail.com',
-                from: 'vishwanathgcp0303@gmail.com',
-                replyTo: 'jenkins@example.com'
+  post {
+        success {
+            emailext(
+                subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) is back to normal',
+                body: 'Good news, everyone! Job ${JOB_NAME} is back to normal. See details at: ${BUILD_URL}',
+                to: 'vishwanathgcp0303@gmail.com'
             )
         }
-    }
+        failure {
+            emailext(
+                subject: 'Job \'${JOB_NAME}\' (${BUILD_NUMBER}) failed',
+                body: 'Something went wrong with Job ${JOB_NAME}. See details at: ${BUILD_URL}',
+                to: 'vishwanathgcp0303@gmail.com'
+            )
+        }
+        
 }
 }

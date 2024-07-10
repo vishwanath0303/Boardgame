@@ -23,17 +23,21 @@ jobs:
     - name: Test with Maven 
       run: mvn test
     - name: Build with Maven
-      run: mvn install 
-    - uses: actions/upload-artifact@v3 
-      with:
-        name: my-artifact
-        path: target
+      run: mvn install
 
-    - name: Publish to Nexus
-      run: mvn deploy
+    - name: Upload artifact to Nexus
       env:
-         NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-         NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          NEXUS_REPO_URL: ${{ secrets.NEXUS_REPO_URL }}
+          ARTIFACT_PATH: target/my-app-1.0.0.jar
+          GROUP_ID: com.example
+          ARTIFACT_ID: my-app
+          VERSION: 1.0.0
+      run: |
+          curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD \
+            --upload-file $ARTIFACT_PATH \
+            $NEXUS_REPO_URL/repository/maven-releases/${GROUP_ID//.//}/$ARTIFACT_ID/$VERSION/$ARTIFACT_ID-$VERSION.jar
 
 
     

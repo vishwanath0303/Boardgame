@@ -54,4 +54,19 @@ jobs:
     - name: Build Docker image
       run: docker build -t vkulkarni0303/boardgame:${{ github.run_number }} .
 
+    - name: Push Docker image
+      run: docker push vkulkarni0303/boardgame:${{ github.run_number }}
+      env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Clean up containers
+      run: |
+          docker stop boardgame || true
+          docker rm boardgame || true
+    
+    - name: Deploy Docker container
+      run: docker run --name boardgame -d -p 8082:8080 vkulkarni0303/boardgame:${{ github.run_number }}
+
+
     

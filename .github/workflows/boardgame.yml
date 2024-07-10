@@ -66,11 +66,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Clean up containers
-      run: |
-          docker stop boardgame || true
-          docker rm boardgame || true
-    
+  
     - name: Deploy Docker container
       run: docker run --name boardgame -d -p 8082:8080 vkulkarni0303/boardgame:${{ github.run_number }}
 

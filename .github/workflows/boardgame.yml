@@ -38,6 +38,14 @@ jobs:
         curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD \
             --upload-file $ARTIFACT_PATH \
             $NEXUS_REPO_URL/repository/maven-releases/${GROUP_ID//.//}/$ARTIFACT_ID/$VERSION/$ARTIFACT_ID-$VERSION.jar
-
+    - name: Run SonarQube Scanner
+      env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+          mvn sonar:sonar \
+          -Dsonar.projectKey=boardgame \
+          -Dsonar.host.url=$SONAR_HOST_URL \
+          -Dsonar.login=$SONAR_TOKEN
 
     

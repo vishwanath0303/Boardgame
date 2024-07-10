@@ -30,10 +30,10 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           NEXUS_REPO_URL: ${{ secrets.NEXUS_REPO_URL }}
-          ARTIFACT_PATH: target/my-app-1.0.0.jar
+          ARTIFACT_PATH: target/database_service_project-0.0.2.jar
           GROUP_ID: com.example
-          ARTIFACT_ID: my-app
-          VERSION: 1.0.0
+          ARTIFACT_ID: database_service_project
+          VERSION: 0.0.2
       run: |
         curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD \
             --upload-file $ARTIFACT_PATH \

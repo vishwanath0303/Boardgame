@@ -28,12 +28,15 @@ jobs:
       with:
         name: my-artifact
         path: target
-    - name: Publish to Nexus
-      run: mvn deploy
-      env:
-          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
-          MAVEN_REPOSITORY_USERNAME: ${{ secrets.MAVEN_REPOSITORY_USERNAME }}
-          MAVEN_REPOSITORY_PASSWORD: ${{ secrets.MAVEN_REPOSITORY_PASSWORD }}
 
+    - name: Build and Deploy to Nexus
+      env:
+        NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+        NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+      run: |
+          mvn clean deploy \
+          -DaltDeploymentRepository=nexus::default::http://18.210.17.37:8081/repository/maven-releases/ \
+          -Dnexus.username=$NEXUS_USERNAME \
+          -Dnexus.password=$NEXUS_PASSWORD
 
     

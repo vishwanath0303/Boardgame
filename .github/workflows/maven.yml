@@ -19,7 +19,7 @@ jobs:
         cache: maven
     - name: Compile with Maven
       run: mvn compile
-    - name: Test with Maven
+    - name: Test with Maven 
       run: mvn test
     - name: Build with Maven
       run: mvn install 

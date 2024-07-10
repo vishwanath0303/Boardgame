@@ -1,4 +1,4 @@
-name: Build Maven Application
+name: BoardGame Application
 
 on:
   push:

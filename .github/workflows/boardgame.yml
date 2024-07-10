@@ -18,7 +18,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Compile with Maven
-    
       run: mvn compile
       
     - name: Test with Maven 
@@ -30,14 +29,11 @@ jobs:
         name: my-artifact
         path: target
 
-    - name: Build and Deploy to Nexus
+    - name: Publish to Nexus
+      run: mvn deploy
       env:
-        NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-        NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-      run: |
-          mvn clean deploy \
-          -DaltDeploymentRepository=nexus::default::http://18.210.17.37:8081/repository/maven-releases/ \
-          -Dnexus.username=$NEXUS_USERNAME \
-          -Dnexus.password=$NEXUS_PASSWORD
+         NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+         NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
 
     

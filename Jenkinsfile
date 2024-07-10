@@ -119,16 +119,45 @@ pipeline {
 
             def body = """
                 <html>
-                <body>
-                <div style="border: 4px solid ${bannerColor}; padding: 10px;">
-                <h2>${jobName} - Build ${buildNumber}</h2>
-                <div style="background-color: ${bannerColor}; padding: 10px;">
-                <h3 style="color: white;">Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
-                </div>
-                <p>Check the <a href="${BUILD_URL}">console output</a>.</p>
-                </div>
-                </body>
-                </html>
+                <head>
+                  <title>CI/CD Pipeline Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            border: 4px solid ${bannerColor};
+            padding: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .status-banner {
+            background-color: ${bannerColor};
+            padding: 10px;
+        }
+        .status-banner h3 {
+            color: white;
+            margin: 0;
+        }
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>${jobName} - Build ${buildNumber}</h2>
+        <div class="status-banner">
+            <h3>Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+        </div>
+        <p>Check the <a href="${BUILD_URL}" target="_blank">console output</a>.</p>
+    </div>
+</body>
+</html>
             """
 
             emailext (

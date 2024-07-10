@@ -30,7 +30,7 @@ jobs:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           NEXUS_REPO_URL: ${{ secrets.NEXUS_REPO_URL }}
-          ARTIFACT_PATH: target/database_service_project-0.0.2.jar
+          ARTIFACT_PATH: target/**.jar
           GROUP_ID: com.example
           ARTIFACT_ID: database_service_project
           VERSION: 0.0.2

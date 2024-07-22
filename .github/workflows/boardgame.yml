@@ -24,7 +24,11 @@ jobs:
       run: mvn test
     - name: Build with Maven
       run: mvn install
-
+      
+  sonarqube:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
     - name: Run SonarQube Scanner
       env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}

@@ -24,11 +24,6 @@ jobs:
       run: mvn test
     - name: Build with Maven
       run: mvn install
-      
-  sonarqube:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
     - name: Run SonarQube Scanner
       env:
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -39,10 +34,6 @@ jobs:
           -Dsonar.host.url=$SONAR_HOST_URL \
           -Dsonar.login=$SONAR_TOKEN
           
-  Docker:
-    runs-on: ubuntu-latest
-    needs: sonarqube
-    steps:
     - name: Set up Docker
       uses: docker/setup-buildx-action@v1
 

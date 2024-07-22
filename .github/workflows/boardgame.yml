@@ -3,6 +3,7 @@ name: BoardGame Application
 on:
   push:
     branches: [ "main" ]
+    
 
 jobs:
   build:

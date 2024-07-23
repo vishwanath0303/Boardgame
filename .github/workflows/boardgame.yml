@@ -37,6 +37,7 @@ jobs:
 
 
   Deploy:
+    needs: build
 
     runs-on: self-hosted
 
